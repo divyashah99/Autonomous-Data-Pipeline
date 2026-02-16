@@ -1,4 +1,4 @@
-# Autonomous Data Pipeline Setup Guide
+# Autonomous Data Pipeline
 
 Hey! This guide will help you get the pipeline running on Google Cloud. I built this using Google Cloud Shell, so the instructions are based on that experience.
 
