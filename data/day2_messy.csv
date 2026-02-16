@@ -1,0 +1,16 @@
+order_id,customer_id,amount,order_date,status
+ORD-011,C-111,340.00,2025-02-15,completed
+ORD-012,C-112,,2025-02-15,pending
+ORD-013,C-113,175.00,2025/02/15,completed
+ORD-011,C-111,340.00,2025-02-15,completed
+ORD-014,C-114,95000.00,2025-02-15,completed
+ORD-015,C-115,220.50,15-02-2025,cancelled
+ORD-016,C-116,180.00,2025-02-15,completed
+ORD-017,C-117,,2025-02-15,pending
+ORD-018,C-118,425.00,Feb 15 2025,completed
+ORD-019,C-119,88000.00,2025-02-15,completed
+ORD-020,C-120,310.00,2025-02-15,completed
+ORD-012,C-112,150.00,2025-02-15,pending
+ORD-021,C-121,275.00,2025-02-15,cancelled
+ORD-022,C-122,,2025/02/15,pending
+ORD-023,C-123,199.99,2025-02-15,completed

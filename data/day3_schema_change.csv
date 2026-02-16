@@ -1,0 +1,11 @@
+order_id,customer_id,amount,order_date,status,region
+ORD-024,C-124,450.00,2025-02-16,completed,North
+ORD-025,C-125,280.00,2025-02-16,pending,South
+ORD-026,C-126,320.50,2025-02-16,completed,East
+ORD-027,C-127,175.00,2025-02-16,completed,West
+ORD-028,C-128,590.00,2025-02-16,cancelled,North
+ORD-029,C-129,225.00,2025-02-16,completed,South
+ORD-030,C-130,410.00,2025-02-16,pending,East
+ORD-031,C-131,165.50,2025-02-16,completed,West
+ORD-032,C-132,380.00,2025-02-16,completed,North
+ORD-033,C-133,295.00,2025-02-16,pending,South
