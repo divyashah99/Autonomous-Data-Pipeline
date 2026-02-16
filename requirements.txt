@@ -1,0 +1,6 @@
+# Core packages (5 total)
+pandas==2.1.4                      # Data manipulation
+numpy==1.26.3                      # Numerical operations
+google-cloud-storage==2.14.0       # GCS file reading
+google-cloud-bigquery==3.14.1      # BigQuery loading
+google-cloud-aiplatform==1.42.1    # Vertex AI + Gemini
