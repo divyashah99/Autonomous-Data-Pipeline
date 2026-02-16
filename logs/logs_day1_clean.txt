@@ -1,0 +1,96 @@
+divya_shah7999@cloudshell:~/agent_pipeline (autonomousdatapipeline)$ python3 main_adk.py
+
+╔════════════════════════════════════════════════════════════════════╗
+║                                                                    ║
+║     🤖 AUTONOMOUS DATA PIPELINE - GOOGLE ADK                       ║
+║                                                                    ║
+║     Powered by: Vertex AI Reasoning Engine + Gemini          ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
+⚠️  WARNING: Missing environment variables: ['GOOGLE_APPLICATION_CREDENTIALS']
+   Make sure to set GOOGLE_APPLICATION_CREDENTIALS
+   Example: export GOOGLE_APPLICATION_CREDENTIALS='/path/to/service-account-key.json'
+
+
+🔧 Initializing Agents with Vertex AI...
+   Project: autonomousdatapipeline
+   Location: us-central1
+   Bucket: pipeline-input-divya
+   Dataset: pipeline_results
+
+📦 Creating Agent Instances...
+  ✓ Ingestion Agent (Gemini-powered)
+  ✓ Quality Agent (Gemini-powered)
+  ✓ Transform Agent (Gemini-powered)
+  ✓ Loader Agent (Gemini-powered)
+2026-02-16 19:16:35,669 - root - INFO - 🚀 Pipeline Manager initialized with Gemini orchestration
+  ✓ Pipeline Manager (Gemini orchestration)
+
+======================================================================
+🚀 PIPELINE READY
+======================================================================
+
+⚙️  Routing Mode: Rule-based (reliable)
+
+
+======================================================================
+🚀 AUTONOMOUS PIPELINE: day1_clean.csv
+======================================================================
+
+📥 STEP 1: Ingestion Agent
+----------------------------------------------------------------------
+2026-02-16 19:16:35,669 - root - INFO - 🤖 Ingestion Agent: Processing day1_clean.csv with Gemini reasoning...
+2026-02-16 19:16:39,189 - root - INFO - ✅ Ingestion complete: 10 rows, format=csv
+✅ Ingested 10 rows
+   Format: csv
+   Schema: ['order_id', 'customer_id', 'amount', 'order_date', 'status']
+
+🔍 STEP 2: Quality Agent
+----------------------------------------------------------------------
+2026-02-16 19:16:39,189 - root - INFO - 🤖 Quality Agent: Analyzing 10 rows with Gemini...
+2026-02-16 19:16:44,291 - root - INFO - 📊 Score comparison: Rule-based=100, LLM=100
+2026-02-16 19:16:44,292 - root - INFO - 🧠 Gemini Quality Assessment (Score: 100/100):
+2026-02-16 19:16:44,292 - root - INFO - Based on the provided context, here is the data quality assessment:
+
+1.  **Overall Quality Assessment:** 100/100
+    *   The dataset shows no detected issues across all checked categories (nulls, duplicates, outliers, date formats).
+
+2.  **Severity Rating for each Issue Category:**
+    *   **Null values:** Low (0 columns affected)
+    *   **Duplicates:** Low (0 rows)
+    *   **Outliers:** Low (0 columns with extreme values)
+    *   **Date format issues:** Low (0 inconsistencies)
+
+3.  **Recommend...
+📊 Quality Score: 100/100
+   Issues found: 0
+
+🤔 STEP 3: Routing Decision (Rule-Based)
+----------------------------------------------------------------------
+2026-02-16 19:16:44,292 - root - INFO - 📊 Rule-based decision: PROCEED (score 100 > 80)
+🎯 Decision: PROCEED
+
+✨ STEP 4: Transform Agent
+----------------------------------------------------------------------
+⏭️  Skipping transformation (high quality score: 100)
+
+📤 STEP 5: Loader Agent
+----------------------------------------------------------------------
+2026-02-16 19:16:44,292 - root - INFO - 🤖 Loader Agent: Validating and loading 10 rows...
+/usr/local/lib/python3.12/dist-packages/google/cloud/bigquery/_pandas_helpers.py:489: FutureWarning: Loading pandas DataFrame into BigQuery will require pandas-gbq package version 0.26.1 or greater in the future. Tried to import pandas-gbq and got: No module named 'pandas_gbq'
+  warnings.warn(
+2026-02-16 19:16:48,098 - root - INFO - ✅ Successfully loaded 10 rows to autonomousdatapipeline.pipeline_results.sales_data
+✅ Successfully loaded to bq://autonomousdatapipeline.pipeline_results.sales_data
+   Rows loaded: 10
+
+======================================================================
+📋 FINAL PIPELINE REPORT
+======================================================================
+✅ Status: SUCCESS
+   File: day1_clean.csv
+   Quality Score: 100/100
+   Rows Loaded: 10
+   Transformation: No
+   Schema Updated: No
+======================================================================

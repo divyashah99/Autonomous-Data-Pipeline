@@ -1,0 +1,216 @@
+
+
+======================================================================
+🚀 AUTONOMOUS PIPELINE: day2_messy.csv
+======================================================================
+
+📥 STEP 1: Ingestion Agent
+----------------------------------------------------------------------
+2026-02-16 19:16:48,098 - root - INFO - 🤖 Ingestion Agent: Processing day2_messy.csv with Gemini reasoning...
+2026-02-16 19:16:57,058 - root - INFO - ✅ Ingestion complete: 15 rows, format=csv
+✅ Ingested 15 rows
+   Format: csv
+   Schema: ['order_id', 'customer_id', 'amount', 'order_date', 'status']
+
+🔍 STEP 2: Quality Agent
+----------------------------------------------------------------------
+2026-02-16 19:16:57,058 - root - INFO - 🤖 Quality Agent: Analyzing 15 rows with Gemini...
+2026-02-16 19:17:07,429 - root - INFO - 📊 Score comparison: Rule-based=70, LLM=35
+2026-02-16 19:17:07,429 - root - INFO - 🧠 Gemini Quality Assessment (Score: 70/100):
+2026-02-16 19:17:07,429 - root - INFO - As a data quality expert, here is the assessment:
+
+1.  **Overall Quality Assessment (0-100 scale):** 35/100
+    *   *Rationale:* Multiple high-severity issues (nulls, duplicates, outliers) significantly impact core transactional data (`amount`, `order_id`), alongside a widespread medium-severity issue (date formats) affecting all records. This indicates poor data reliability and integrity.
+
+2.  **Severity Rating for each issue category:**
+    *   **Null values** (`amount`): **High** (20.0% > 5%)...
+📊 Quality Score: 70/100
+   Issues found: 4
+   - nulls: amount (3 affected)
+   - duplicate_orders: order_id (2 affected)
+   - outliers: amount (2 affected)
+
+🤔 STEP 3: Routing Decision (Rule-Based)
+----------------------------------------------------------------------
+2026-02-16 19:17:07,429 - root - INFO - 📊 Rule-based decision: CLEAN (score 70 in 60-80)
+🎯 Decision: CLEAN
+
+🧹 STEP 4: Transform Agent
+----------------------------------------------------------------------
+⚙️  Cleaning mediocre quality data (score: 70)...
+2026-02-16 19:17:07,430 - root - INFO - 🤖 Transform Agent: Cleaning 15 rows with Gemini guidance...
+2026-02-16 19:17:22,041 - root - INFO - 🧠 Gemini Cleaning Strategy: As a data transformation expert, here's the optimal cleaning strategy:
+
+**Overall Strategy:**
+Given the small dataset size (15 rows), prioritize fixing and imputation over dropping rows to retain as much data as possible, except for clear structural errors like duplicate identifiers.
+
+**1. Which issues should be fixed vs which rows should be dropped?**
+*   **Fix:**
+    *   Inconsistent `order_date` formats (all 15 rows).
+    *   Null values in `amount` (3 rows).
+    *   Outliers in `amount` (2 r...
+2026-02-16 19:17:22,050 - root - INFO - ✓ Removed 2 duplicate orders
+2026-02-16 19:17:22,053 - root - INFO - ✓ Dates standardized
+2026-02-16 19:17:22,055 - root - INFO - ✓ Outliers capped, 2 nulls filled
+2026-02-16 19:17:22,056 - root - INFO - ✅ Transform complete: 15 → 13 rows (2 removed)
+✅ Transformation complete
+   Rows: 15 → 13 (2 removed)
+   Efficiency: 86.67%
+   Fixes applied:
+   - Removed 2 duplicate orders (kept rows with more data)
+   - Standardized date formats to YYYY-MM-DD
+   - Capped 2 outliers (>10000 → 1000)
+   - Filled 2 null amounts with 0
+
+📤 STEP 5: Loader Agent
+----------------------------------------------------------------------
+2026-02-16 19:17:22,056 - root - INFO - 🤖 Loader Agent: Validating and loading 13 rows...
+/usr/local/lib/python3.12/dist-packages/google/cloud/bigquery/_pandas_helpers.py:489: FutureWarning: Loading pandas DataFrame into BigQuery will require pandas-gbq package version 0.26.1 or greater in the future. Tried to import pandas-gbq and got: No module named 'pandas_gbq'
+  warnings.warn(
+2026-02-16 19:17:25,053 - root - INFO - ✅ Successfully loaded 13 rows to autonomousdatapipeline.pipeline_results.sales_data
+✅ Successfully loaded to bq://autonomousdatapipeline.pipeline_results.sales_data
+   Rows loaded: 13
+
+======================================================================
+📋 FINAL PIPELINE REPORT
+======================================================================
+✅ Status: SUCCESS
+   File: day2_messy.csv
+   Quality Score: 70/100
+   Rows Loaded: 13
+   Transformation: Yes
+   Schema Updated: No
+======================================================================
+
+
+======================================================================
+🚀 AUTONOMOUS PIPELINE: day3_schema_change.csv
+======================================================================
+
+📥 STEP 1: Ingestion Agent
+----------------------------------------------------------------------
+2026-02-16 19:17:25,053 - root - INFO - 🤖 Ingestion Agent: Processing day3_schema_change.csv with Gemini reasoning...
+2026-02-16 19:17:35,012 - root - INFO - 🧠 Gemini detected schema change: Here's an analysis of the schema change:
+
+1.  **Has the schema changed?**
+    Yes, the schema has changed.
+
+2.  **What are the new columns (if any)?**
+    The new column is `region`.
+
+3.  **What are the implications for downstream processing?**
+    *   **Data Models & ETL/ELT:** All downstream data models, ETL/ELT jobs, and data pipelines will need to be updated to account for the new `region` column. This includes staging tables, data warehouses, and data lakes.
+    *   **Applications & APIs:** Applications, APIs, and microservices consuming this data will need to be reviewed. If they use `SELECT *` or have strict schema expectations, they might break. Consumers should be adapted to either ignore the new column or incorporate it as needed.
+    *   **Reporting & Analytics:** Reports, dashboards, and analytical queries might need to be updated to include or exclude the `region` column, and potentially develop new insights based on this data.
+    *   **Storage & Performance:** A slight increase in storage requirements, though negligible for `(10, 6)` data shape. Performance impact is usually minimal for column additions unless it affects indexing strategies.
+
+4.  **Should we be concerned about any changes?**
+    Yes, a schema addition, while generally backward-compatible (consumers can often ignore new fields), requires attention.
+    *   **Risk of Failure:** Downstream systems that are not resilient to schema evolution (e.g., rigid parsing, `SELECT *` in production code) are at risk of failure.
+    *   **Data Quality:** Ensure the `region` column is populated correctly and consistently from the source. Validate its data type and values.
+    *   **Communication:** Proactive communication with all data consumers is crucial to prevent unexpected outages or incorrect data processing.
+
+**Actionable Response:**
+
+*   **Immediately assess and update all affected downstream systems:** Prioritize critical data pipelines, applications, and reports to incorporate or gracefully handle the new `region` column.
+*   **Communicate the change:** Inform all stakeholders and data consumers about the new column, its intended use, and its data type.
+*   **Validate Data Quality:** Ensure the `region` data is accurate, complete, and conforms to expected formats (e.g., geographical regions, consistent naming).
+*   **Document the change:** Update schema documentation, data dictionaries, and any relevant data governance policies.
+2026-02-16 19:17:35,012 - root - INFO - ✅ Ingestion complete: 10 rows, format=csv
+✅ Ingested 10 rows
+   Format: csv
+   Schema: ['order_id', 'customer_id', 'amount', 'order_date', 'status', 'region']
+⚠️  SCHEMA CHANGE DETECTED!
+   New columns: ['region']
+   LLM Analysis: Here's an analysis of the schema change:
+
+1.  **Has the schema changed?**
+    Yes, the schema has changed.
+
+2.  **What are the new columns (if any)?**...
+
+🔍 STEP 2: Quality Agent
+----------------------------------------------------------------------
+2026-02-16 19:17:35,013 - root - INFO - 🤖 Quality Agent: Analyzing 10 rows with Gemini...
+2026-02-16 19:17:40,718 - root - INFO - 📊 Score comparison: Rule-based=100, LLM=100
+2026-02-16 19:17:40,718 - root - INFO - 🧠 Gemini Quality Assessment (Score: 100/100):
+2026-02-16 19:17:40,718 - root - INFO - **1. Overall Quality Assessment:**
+**100/100**
+*Rationale: No data quality issues (nulls, duplicates, outliers, date format inconsistencies) were detected in the provided dataset, indicating exceptionally high quality.*
+
+**2. Severity Rating for Each Issue Category:**
+*   **Null values:** N/A (No issues detected)
+*   **Duplicates:** N/A (No issues detected)
+*   **Outliers:** N/A (No issues detected)
+*   **Date format issues:** N/A (No issues detected)
+
+**3. Recommended Actions for Each Issue:**
+...
+📊 Quality Score: 100/100
+   Issues found: 0
+
+🤔 STEP 3: Routing Decision (Rule-Based)
+----------------------------------------------------------------------
+2026-02-16 19:17:40,719 - root - INFO - 📊 Rule-based decision: PROCEED (score 100 > 80)
+🎯 Decision: PROCEED
+
+✨ STEP 4: Transform Agent
+----------------------------------------------------------------------
+⏭️  Skipping transformation (high quality score: 100)
+
+📤 STEP 5: Loader Agent
+----------------------------------------------------------------------
+2026-02-16 19:17:40,719 - root - INFO - 🤖 Loader Agent: Validating and loading 10 rows...
+/usr/local/lib/python3.12/dist-packages/google/cloud/bigquery/_pandas_helpers.py:489: FutureWarning: Loading pandas DataFrame into BigQuery will require pandas-gbq package version 0.26.1 or greater in the future. Tried to import pandas-gbq and got: No module named 'pandas_gbq'
+  warnings.warn(
+2026-02-16 19:17:43,925 - root - INFO - ✅ Successfully loaded 10 rows to autonomousdatapipeline.pipeline_results.sales_data
+✅ Successfully loaded to bq://autonomousdatapipeline.pipeline_results.sales_data
+   Rows loaded: 10
+
+======================================================================
+📋 FINAL PIPELINE REPORT
+======================================================================
+✅ Status: SUCCESS
+   File: day3_schema_change.csv
+   Quality Score: 100/100
+   Rows Loaded: 10
+   Transformation: No
+   Schema Updated: Yes
+   New Columns: ['region']
+======================================================================
+
+
+======================================================================
+📊 PIPELINE EXECUTION SUMMARY
+======================================================================
+
+Total Files Processed: 3
+  ✅ Successful: 3
+  ❌ Failed: 0
+  ⛔ Aborted: 0
+
+Detailed Results:
+----------------------------------------------------------------------
+
+✅ day1_clean.csv
+   Status: SUCCESS
+   Quality Score: 100/100
+   Rows Loaded: 10
+   Transformed: No
+
+✅ day2_messy.csv
+   Status: SUCCESS
+   Quality Score: 70/100
+   Rows Loaded: 13
+   Transformed: Yes
+
+✅ day3_schema_change.csv
+   Status: SUCCESS
+   Quality Score: 100/100
+   Rows Loaded: 10
+   Transformed: No
+   Schema Updated: Yes (new columns: ['region'])
+
+======================================================================
+🎉 PIPELINE EXECUTION COMPLETE
+======================================================================
